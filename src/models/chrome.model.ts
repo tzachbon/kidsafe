@@ -1,5 +1,5 @@
 export namespace Chrome {
-    export type Action = 'message'
+    export type Action = 'message' | 'scan'
 
     export interface Request<T = any> {
         action: Action;
