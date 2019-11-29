@@ -1,20 +1,23 @@
-if (document.readyState !== 'loading') {
-    console.log('document is already ready, just execute code here');
-    init();
-} else {
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('document was not ready, place code here');
-        init();
-    });
-}
+import ChromeListener, { } from './utils/chrome.util'
 
-function init() {
+// // listen to 
+// chrome.runtime.onMessage.addListener((req) => {
+//     console.log('====================================');
+//     console.log(req);
+//     console.log('====================================');
+// })
 
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        debugger;
-        if (request.type == "worktimer-notification")
-            chrome.notifications.create('worktimer-notification', request.options, function () { });
+// setTimeout(() => {
+//     const requestData = { action: 'message', payload: 'hey' };
+//     chrome.extension.sendRequest(requestData);
+// }, 1500);
 
-        sendResponse();
-    });
-}
+
+const eventChromeListener = new ChromeListener<string>('CONTENT', 'message');
+
+eventChromeListener.subscribe((value) => {
+    if (value) {
+        alert(value)
+        eventChromeListener.sendMessage('Thank you!')
+    }
+})
